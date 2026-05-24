@@ -1,11 +1,12 @@
+# Portfolio FG Engenharia
 
-  # Portfolio page design
-
-This is a code bundle for Portfolio page design. The original project is available at https://www.figma.com/design/15HKT2IsHDh0TNACzN2v0u/Portfolio-page-design.
+Site institucional da FG Engenharia e Empreendimentos, construído com Vite,
+React e Tailwind CSS.
 
 ## Running the code
 
-Run `npm i` to install the dependencies.
+Run `npm install` to install the dependencies.
 
 Run `npm run dev` to start the development server.
-  
+
+Run `npm run build` to generate the production files in `dist/`.

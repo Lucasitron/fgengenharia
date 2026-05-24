@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent, type ReactNode } from 'react';
 import {
   BadgeCheck,
   Building2,
@@ -63,7 +63,7 @@ export default function App() {
     setIsMenuOpen(false);
   };
 
-  const handleBudgetSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleBudgetSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
     setFormStatus('Enviando solicitação...');
@@ -79,7 +79,7 @@ export default function App() {
         method: 'POST',
         body: formData,
       });
-      const data = await response.json();
+      const data: { success?: boolean; message?: string } = await response.json();
 
       if (data.success) {
         setFormStatus('Solicitação enviada com sucesso. Em breve entraremos em contato.');
@@ -516,12 +516,12 @@ export default function App() {
                   'Mão de Obra Especializada'
                 ].map((servico) => (
                   <label key={servico} className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="Serviços selecionados[]"
-                    value={servico}
-                    className="w-5 h-5 text-orange-600 rounded focus:ring-2 focus:ring-orange-500"
-                  />
+                    <input
+                      type="checkbox"
+                      name="Serviços selecionados[]"
+                      value={servico}
+                      className="w-5 h-5 text-orange-600 rounded focus:ring-2 focus:ring-orange-500"
+                    />
                     <span className="text-gray-700">{servico}</span>
                   </label>
                 ))}
@@ -606,7 +606,7 @@ export default function App() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white py-3 rounded-lg font-medium hover:from-orange-700 hover:to-orange-600 transition-colors shadow-lg"
+              className="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white py-3 rounded-lg font-medium shadow-lg transition-colors hover:from-orange-700 hover:to-orange-600 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting ? 'Enviando...' : 'Enviar Solicitação'}
             </button>
@@ -702,12 +702,15 @@ export default function App() {
   );
 }
 
-function CollapsibleSection({ title, children }: { title: string; children: React.ReactNode }) {
+function CollapsibleSection({ title, children }: { title: string; children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Collapsible.Root open={isOpen} onOpenChange={setIsOpen} className="mb-6">
-      <Collapsible.Trigger className="w-full flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors">
+      <Collapsible.Trigger
+        type="button"
+        className="w-full flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+      >
         <span className="font-medium text-gray-900">{title}</span>
         <ChevronDown
           className={`text-gray-600 transition-transform ${isOpen ? 'rotate-180' : ''}`}
